@@ -15,7 +15,7 @@ async function main() {
   const chromeProfiles = await getChromiumProfilesFor();
   console.log("found profiles", chromeProfiles);
   const pickedProfile = chromeProfiles[0];
-  const cookies = await getCookiesPromised("https://chat.openai.com/", "puppeteer");
+  const cookies = await getCookiesPromised("https://chat.openai.com/", "app");
   console.log("found cookies", cookies);
   const data = {
     cookies,
@@ -27,7 +27,7 @@ async function main() {
   }
   console.log("generated data for deeplink", data);
   const deepLink = createDeepLink("chatgpt", data);
-  console.log("deepLink", deepLink);
+  console.log(`handleDeepLink('${deepLink}')`);
 }
 
 main().then(() => console.log("done"));

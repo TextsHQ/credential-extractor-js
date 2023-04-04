@@ -181,6 +181,19 @@ function convertRawToSetCookieStrings(cookies) {
   return strings;
 }
 
+function convertRawToAppState(cookies) {
+  return cookies.map((cookie) => ({
+    name: cookie.name,
+    value: cookie.value,
+    expirationDate: cookie.expires_utc / 10000000,
+    domain: cookie.host_key,
+    path: cookie.path,
+    httpOnly: cookie.is_httponly,
+    secure: cookie.is_secure,
+    sameSite: cookie.sameSite
+  }))
+}
+
 function convertRawToPuppeteerState(cookies) {
   const puppeteerCookies = [];
 
@@ -306,8 +319,8 @@ const getCookies = async (uri, format, callback, _profile) => {
 
       db.each(
         "SELECT host_key, path, is_secure, expires_utc, name, value, encrypted_value, creation_utc, is_httponly, has_expires, is_persistent FROM cookies where host_key like '%" +
-          domain +
-          "' ORDER BY LENGTH(path) DESC, creation_utc ASC",
+        domain +
+        "' ORDER BY LENGTH(path) DESC, creation_utc ASC",
         function (err, cookie) {
           var encryptedValue, value;
 
@@ -336,7 +349,7 @@ const getCookies = async (uri, format, callback, _profile) => {
                 localState = JSON.parse(
                   fs.readFileSync(
                     os.homedir() +
-                      "/AppData/Local/Google/Chrome/User Data/Local State"
+                    "/AppData/Local/Google/Chrome/User Data/Local State"
                   )
                 );
                 b64encodedKey = localState.os_crypt.encrypted_key;
@@ -419,12 +432,20 @@ const getCookies = async (uri, format, callback, _profile) => {
               output = convertRawToJar(validCookies, uri);
               break;
 
+            case "raw":
+              output = validCookies
+              break;
+
             case "set-cookie":
               output = convertRawToSetCookieStrings(validCookies);
               break;
 
             case "header":
               output = convertRawToHeader(validCookies);
+              break;
+
+            case "app":
+              output = convertRawToAppState(validCookies, url);
               break;
 
             case "puppeteer":

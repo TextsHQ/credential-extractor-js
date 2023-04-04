@@ -78,7 +78,7 @@ function getDerivedKey(callback) {
 		callback(null, null);
 
 	}
-	
+
 }
 
 // Chromium stores its timestamps in sqlite on the Mac using the Windows Gregorian epoch
@@ -141,20 +141,16 @@ function convertRawToHeader(cookies) {
 }
 
 function convertRawToJar(cookies, uri) {
-
-	var jar = new request.jar();
+	const jar = new request.jar();
 
 	cookies.forEach(function (cookie, index) {
-
-		var jarCookie = request.cookie(cookie.name + '=' + cookie.value);
+		const jarCookie = request.cookie(cookie.name + '=' + cookie.value);
 		if (jarCookie) {
 			jar.setCookie(jarCookie, uri);
 		}
-
 	});
 
 	return jar;
-
 }
 
 function convertRawToSetCookieStrings(cookies) {
@@ -190,9 +186,8 @@ function convertRawToSetCookieStrings(cookies) {
 }
 
 function convertRawToPuppeteerState(cookies) {
+	const puppeteerCookies = [];
 
-	let puppeteerCookies = [];
-	
 	cookies.forEach(function(cookie, index) {
 		const newCookieObject = {
 			name: cookie.name,
@@ -207,7 +202,7 @@ function convertRawToPuppeteerState(cookies) {
 		if (cookie.is_httponly) {
 			newCookieObject['HttpOnly'] = true
 		}
-        puppeteerCookies.push(newCookieObject)
+    puppeteerCookies.push(newCookieObject)
 	})
 
 	return puppeteerCookies;
@@ -246,32 +241,31 @@ function decryptAES256GCM(key, enc, nonce, tag) {
 
  */
 
-const getCookies = async (uri, format, callback, profile) => {
-
-	profile ? profile : profile = 'Default'
+const getCookies = async (uri, format, callback, _profile) => {
+  const profile = _profile ? _profile : 'Default'
 
 	if (process.platform === 'darwin') {
 
 		path = process.env.HOME + `/Library/Application Support/Google/Chrome/${profile}/Cookies`;
 		ITERATIONS = 1003;
-	
+
 	} else if (process.platform === 'linux') {
-	
+
 		path = process.env.HOME + `/.config/google-chrome/${profile}/Cookies`;
 		ITERATIONS = 1;
-	
+
 	} else if (process.platform === 'win32') {
 
 		path = os.homedir() + `\\AppData\\Local\\Google\\Chrome\\User Data\\${profile}\\Network\\Cookies`;
-		
+
 		if (!fs.existsSync(path)) {
 			path = os.homedir() + `\\AppData\\Local\\Google\\Chrome\\User Data\\${profile}\\Cookies`;
 		}
-		
+
 	} else {
-	
+
 		return callback(new Error('Only Mac, Windows, and Linux are supported.'));
-	
+
 	}
 
 	db = new sqlite3.Database(path);
@@ -311,7 +305,7 @@ const getCookies = async (uri, format, callback, profile) => {
 			// ORDER BY tries to match sort order specified in
 			// RFC 6265 - Section 5.4, step 2
 			// http://tools.ietf.org/html/rfc6265#section-5.4
-			
+
 			db.each("SELECT host_key, path, is_secure, expires_utc, name, value, encrypted_value, creation_utc, is_httponly, has_expires, is_persistent FROM cookies where host_key like '%" + domain + "' ORDER BY LENGTH(path) DESC, creation_utc ASC", function (err, cookie) {
 
 				var encryptedValue,

@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "int": "^0.2.0",
+    "phylo": "^1.0.0-rc.4",
     "request": "^2.88.0",
     "sqlite3": "^5.0.7",
     "tldjs": "^1.5.1",

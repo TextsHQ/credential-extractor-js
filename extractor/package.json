@@ -1,11 +1,36 @@
 {
   "name": "credential-extractor-js",
   "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {},
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TextsHQ/credential-extractor-js.git"
+  },
   "dependencies": {
+    "int": "^0.2.0",
+    "request": "^2.88.0",
+    "sqlite3": "^5.0.7",
+    "tldjs": "^1.5.1",
+    "tough-cookie": "^2.3.4",
     "better-sqlite3": "8.2.0",
-    "lz4": "^0.6.5",
-    "tough-cookie": "4.1.2",
-    "chrome-cookies-secure": "2.0.0"
+    "lz4": "^0.6.5"
+  },
+  "optionalDependencies": {
+    "keytar": "^7.9.0",
+    "win-dpapi": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/joi": "^14.3.1",
+    "joi": "^14.3.1"
+  },
+  "engines": {
+    "node": ">=12.18.4"
   },
   "type": "module"
 }

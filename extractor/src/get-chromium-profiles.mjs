@@ -17,6 +17,7 @@ const variations = {
   CHROME_CANARY: 1,
   CHROMIUM: 2,
 };
+
 // Source: https://chromium.googlesource.com/chromium/src/+/HEAD/docs/user_data_dir.md
 const locations = {
   darwin: [

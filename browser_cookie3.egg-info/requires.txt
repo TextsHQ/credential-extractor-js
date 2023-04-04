@@ -1,0 +1,8 @@
+lz4
+pycryptodomex
+
+[:python_version < "3.7" and ("bsd" in sys_platform or sys_platform == "linux")]
+dbus-python
+
+[:python_version >= "3.7" and ("bsd" in sys_platform or sys_platform == "linux")]
+jeepney

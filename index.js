@@ -2,9 +2,6 @@ import { execSync } from 'child_process';
 
 const CHROMIUM_DEFAULT_PASSWORD = new Uint8Array([112, 101, 97, 110, 117, 116, 115]);
 
-class ChromiumBased {
-
-}
 /**
  * get password from osx keychain
  * @param {string} osxKeyService

@@ -27,9 +27,7 @@ export function createLocalCopy(cookieFile) {
   }
 }
 
-// password is peanuts
-const CHROMIUM_DEFAULT_PASSWORD = new Uint8Array([112, 101, 97, 110, 117, 116, 115]);
-const CHROMIUM_DEFAULT_PASSWORD_PLAIN_TEXT = String.fromCharCode.apply(null, CHROMIUM_DEFAULT_PASSWORD);
+const CHROMIUM_DEFAULT_PASSWORD = 'peanuts'
 
 /**
  * Retrieve password used to encrypt cookies from OSX Keychain
@@ -38,8 +36,13 @@ const CHROMIUM_DEFAULT_PASSWORD_PLAIN_TEXT = String.fromCharCode.apply(null, CHR
  * @returns {string} - The password from the OSX Keychain or the default Chromium password
  */
 export function getOsxKeychainPassword(osxKeyService, osxKeyUser) {
-  const cmd = ['/usr/bin/security', '-q', 'find-generic-password', '-w', '-a', osxKeyUser, '-s', osxKeyService].join(' ');
+  // @TODO: Original code uses `osxKeyService` but that fails with
+  // security: SecKeychainSearchCopyNext: The specified item could not be found in the keychain.
+  // while only providing user seems to work correctly (manually checked in keychain to make sure it's returning the
+  // password for the correct service.
+  const cmd = ['/usr/bin/security', '-q', 'find-generic-password', '-w', '-a', osxKeyUser].join(' ');
 
+  console.log('running command:', cmd)
   try {
     const result = execSync(cmd, { encoding: 'utf-8' });
     return result.trim();

@@ -15,7 +15,7 @@ async function main() {
   const chromeProfiles = await getChromiumProfilesFor();
   console.log("found profiles", chromeProfiles);
   const pickedProfile = chromeProfiles[0];
-  const cookies = await getCookiesPromised("https://chat.openai.com/", "jar");
+  const cookies = await getCookiesPromised("https://chat.openai.com/", "puppeteer");
   console.log("found cookies", cookies);
   const data = {
     cookies,

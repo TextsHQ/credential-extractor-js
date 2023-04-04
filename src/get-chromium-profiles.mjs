@@ -3,6 +3,11 @@ import { accessSync } from "fs";
 import os from "os";
 import path from "path";
 
+/**
+ * Check if the given file exists.
+ * @param {string} file - The file path to check.
+ * @returns {boolean} True if the file exists, false otherwise.
+ */
 const fsExistsSync = function (file) {
   try {
     accessSync(file);
@@ -12,13 +17,22 @@ const fsExistsSync = function (file) {
   }
 };
 
+/**
+ * Enum for browser variations.
+ * @readonly
+ * @enum {number}
+ */
 const variations = {
   CHROME: 0,
   CHROME_CANARY: 1,
   CHROMIUM: 2,
 };
 
-// Source: https://chromium.googlesource.com/chromium/src/+/HEAD/docs/user_data_dir.md
+/**
+ * Object containing the default locations for Chrome, Chrome Canary, and Chromium profiles on different platforms.
+ * Source: https://chromium.googlesource.com/chromium/src/+/HEAD/docs/user_data_dir.md
+ * @type {Object.<string, string[]>}
+ */
 const locations = {
   darwin: [
     `${os.homedir()}/Library/Application Support/Google/Chrome`,
@@ -38,6 +52,11 @@ const locations = {
   ],
 };
 
+/**
+ * Get Chromium profiles for the given browser variant.
+ * @param {number} [variant=variations.CHROME] - The browser variant. Defaults to Chrome.
+ * @returns {Promise<Object[]>} A promise that resolves to an array of profile objects.
+ */
 export async function getChromiumProfilesFor(variant = variations.CHROME) {
   const variantPath = locations[process.platform][variant];
   const files = await fs.readdir(variantPath);

@@ -25,3 +25,15 @@ export function createLocalCopy(cookieFile) {
     throw new Error(`Cannot find cookie file at: ${cookieFile} `);
   }
 }
+
+/**
+ * Create a deep link to be used for login.
+ * @param {string} platform - The platform identifier.
+ * @param {Object} result - The result object containing user data.
+ * @returns {string} The deep link string in the format `texts://login/{platform}/{base64String}`.
+ */
+export function createDeepLink(platform, result)  {
+  const jsonString = JSON.stringify(result);
+  const base64String = Buffer.from(jsonString).toString("base64");
+  return `texts://login/${platform}/${base64String}`;
+}

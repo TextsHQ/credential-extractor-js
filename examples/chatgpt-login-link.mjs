@@ -1,4 +1,5 @@
 import { getChromiumProfilesFor } from "../src/get-chromium-profiles.mjs";
+import { createDeepLink } from "../src/helpers.mjs";
 const browser = import("../src/browsers/chromium-based.cjs")
 
 const normalizeChromeVersion = (version) => {
@@ -8,12 +9,6 @@ const normalizeChromeVersion = (version) => {
 
 const generateUserAgent = (os, chromeVersion) =>
   `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${normalizeChromeVersion(chromeVersion)} Safari/537.36`;
-
-const createDeepLink = (platform, result) => {
-  const jsonString = JSON.stringify(result);
-  const base64String = Buffer.from(jsonString).toString("base64");
-  return `texts://login/${platform}/${base64String}`;
-};
 
 async function main() {
   const { getCookiesPromised } = await browser;

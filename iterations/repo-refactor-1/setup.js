@@ -1,4 +1,4 @@
-const setup = require('setup');
+const setup = require('iterations/repo-refactor-1/setup.js');
 
 setup({
     name: 'browser-cookie3',

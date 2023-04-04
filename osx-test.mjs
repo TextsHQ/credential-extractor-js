@@ -1,4 +1,4 @@
-import { getOsxKeychainPassword } from "./helpers.mjs";
+import { getOsxKeychainPassword } from "./extractor/src/helpers.mjs";
 
 async function main() {
   console.log(getOsxKeychainPassword('Chrome Safe Storage', 'Chrome'))

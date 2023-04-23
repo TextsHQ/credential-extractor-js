@@ -1,3 +1,14 @@
 node_modules
 .idea
 .DS_Store
+
+dist
+npm-debug.log
+.eslintcache
+
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions

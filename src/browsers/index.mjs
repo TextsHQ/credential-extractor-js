@@ -1,10 +1,22 @@
+gimport { generateNixPathsChromium, generateWinPathsChromium } from './utils'
+
+export type BrowserConfig = {
+  osCryptedName: string
+  osxKeyService: string
+  osxKeyUser: string
+  linuxCookies: string[]
+  windowsCookies: string[]
+  osxCookies: string[]
+  windowsKeys: string[]
+}
+
 /**
  * @param {string} os - Operating system
  * @returns {{osCryptedName: string, osxKeyService: string, osxKeyUser: string, linuxCookies: string[], windowsCookies: string[], osxCookies: string[], windowsKeys: string[]}}
  */
-function Chrome(os) {
-  const channels = ['', '-beta', '-unstable'];
-  const winChannels = ['', ' Beta', ' Dev'];
+export function Chrome(): BrowserConfig {
+  const channels = ['', '-beta', '-unstable']
+  const winChannels = ['', ' Beta', ' Dev']
 
   return {
     osCryptedName: 'chrome',
@@ -15,7 +27,7 @@ function Chrome(os) {
         '~/.config/google-chrome{channel}/Default/Cookies',
         '~/.config/google-chrome{channel}/Profile */Cookies',
       ],
-      channels
+      channels,
     ),
     windowsCookies: generateWinPathsChromium(
       [
@@ -24,20 +36,20 @@ function Chrome(os) {
         'Google\\Chrome{channel}\\User Data\\Profile *\\Cookies',
         'Google\\Chrome{channel}\\User Data\\Profile *\\Network\\Cookies',
       ],
-      winChannels
+      winChannels,
     ),
     osxCookies: generateNixPathsChromium(
       [
         '~/Library/Application Support/Google/Chrome{channel}/Default/Cookies',
         '~/Library/Application Support/Google/Chrome{channel}/Profile */Cookies',
       ],
-      winChannels
+      winChannels,
     ),
     windowsKeys: generateWinPathsChromium(
       'Google\\Chrome{channel}\\User Data\\Local State',
-      winChannels
+      winChannels,
     ),
-  };
+  }
 }
 
 /**
@@ -64,7 +76,7 @@ function Chromium(os) {
       '~/Library/Application Support/Chromium/Profile */Cookies',
     ],
     windowsKeys: generateWinPathsChromium('Chromium\\User Data\\Local State'),
-  };
+  }
 }
 
 /**
@@ -72,7 +84,7 @@ function Chromium(os) {
  * @returns {{osCryptedName: string, osxKeyService: string, osxKeyUser: string, linuxCookies: string[], windowsCookies: string[], osxCookies: string[], windowsKeys: string[]}}
  */
 function Opera(os) {
-  const channels = ['Stable', 'Next', 'Developer'];
+  const channels = ['Stable', 'Next', 'Developer']
 
   return {
     osCryptedName: 'chromium',
@@ -88,7 +100,7 @@ function Opera(os) {
         'Opera Software\\Opera {channel}\\Cookies',
         'Opera Software\\Opera {channel}\\Network\\Cookies',
       ],
-      channels
+      channels,
     ),
     osxCookies: [
       '~/Library/Application Support/com.operasoftware.Opera/Cookies',
@@ -97,9 +109,9 @@ function Opera(os) {
     ],
     windowsKeys: generateWinPathsChromium(
       'Opera Software\\Opera {channel}\\Local State',
-      channels
+      channels,
     ),
-  };
+  }
 }
 
 /**
@@ -117,16 +129,16 @@ function OperaGX(os) {
         'Opera Software\\Opera GX {channel}\\Cookies',
         'Opera Software\\Opera GX {channel}\\Network\\Cookies',
       ],
-      ['Stable']
+      ['Stable'],
     ),
     osxCookies: [
       '~/Library/Application Support/com.operasoftware.OperaGX/Cookies',
     ],
     windowsKeys: generateWinPathsChromium(
       'Opera Software\\Opera GX {channel}\\Local State',
-      ['Stable']
+      ['Stable'],
     ),
-  };
+  }
 }
 
 /**
@@ -134,7 +146,7 @@ function OperaGX(os) {
  * @returns {{osCryptedName: string, osxKeyService: string, osxKeyUser: string, linuxCookies: string[], windowsCookies: string[], osxCookies: string[], windowsKeys: string[]}}
  */
 function Brave(os) {
-  const channels = ['', '-Beta', '-Dev', '-Nightly'];
+  const channels = ['', '-Beta', '-Dev', '-Nightly']
 
   return {
     osCryptedName: 'brave',
@@ -145,7 +157,7 @@ function Brave(os) {
         '~/.config/BraveSoftware/Brave-Browser{channel}/Default/Cookies',
         '~/.config/BraveSoftware/Brave-Browser{channel}/Profile */Cookies',
       ],
-      channels
+      channels,
     ),
     windowsCookies: generateWinPathsChromium(
       [
@@ -154,20 +166,20 @@ function Brave(os) {
         'BraveSoftware\\Brave-Browser{channel}\\User Data\\Profile *\\Cookies',
         'BraveSoftware\\Brave-Browser{channel}\\User Data\\Profile *\\Network\\Cookies',
       ],
-      channels
+      channels,
     ),
     osxCookies: generateNixPathsChromium(
       [
         '~/Library/Application Support/BraveSoftware/Brave-Browser{channel}/Default/Cookies',
         '~/Library/Application Support/BraveSoftware/Brave-Browser{channel}/Profile */Cookies',
       ],
-      channels
+      channels,
     ),
     windowsKeys: generateWinPathsChromium(
       'BraveSoftware\\Brave-Browser{channel}\\User Data\\Local State',
-      channels
+      channels,
     ),
-  };
+  }
 }
 
 /**
@@ -175,8 +187,8 @@ function Brave(os) {
  * @returns {{osCryptedName: string, osxKeyService: string, osxKeyUser: string, linuxCookies: string[], windowsCookies: string[], osxCookies: string[], windowsKeys: string[]}}
  */
 function Edge(os) {
-  const linuxChannels = ['', '-beta', '-dev', '-canary'];
-  const winChannels = ['Stable', 'Beta', 'Dev', 'Canary'];
+  const linuxChannels = ['', '-beta', '-dev', '-canary']
+  const winChannels = ['Stable', 'Beta', 'Dev', 'Canary']
 
   return {
     osCryptedName: 'edge',
@@ -187,7 +199,7 @@ function Edge(os) {
         '~/.config/microsoft-edge{channel}/Default/Cookies',
         '~/.config/microsoft-edge{channel}/Profile */Cookies',
       ],
-      linuxChannels
+      linuxChannels,
     ),
     windowsCookies: generateWinPathsChromium(
       [
@@ -196,7 +208,7 @@ function Edge(os) {
         'Microsoft\\Edge {channel}\\User Data\\Profile *\\Cookies',
         'Microsoft\\Edge {channel}\\User Data\\Profile *\\Network\\Cookies',
       ],
-      winChannels
+      winChannels,
     ),
     osxCookies: [
       '~/Library/Application Support/Microsoft Edge/Default/Cookies',
@@ -204,7 +216,7 @@ function Edge(os) {
     ],
     windowsKeys: generateWinPathsChromium(
       'Microsoft\\Edge {channel}\\User Data\\Local State',
-      winChannels
+      winChannels,
     ),
-  };
+  }
 }
